@@ -1,0 +1,19 @@
+{
+  "name": "nuxt-vuetify-loader-sample",
+  "version": "1.0.0",
+  "description": "Components auto-discovery using vuetify-loader",
+  "author": "Kaz Namba &lt;kaz.namba@gmail.com&gt;",
+  "private": true,
+  "scripts": {
+    "dev": "nuxt",
+    "build": "nuxt build",
+    "start": "nuxt start",
+    "generate": "nuxt generate"
+  },
+  "dependencies": {
+    "nuxt": "^2.0.0"
+  },
+  "devDependencies": {
+    "@nuxtjs/vuetify": "^1.0.0"
+  }
+}
