@@ -1,4 +1,9 @@
+import path from 'path'
+
+import glob from 'glob'
 import colors from 'vuetify/es5/util/colors'
+
+const COMPONENTS_DIR = 'components'
 
 export default {
   mode: 'universal',
@@ -59,6 +64,46 @@ export default {
           warning: colors.amber.base,
           error: colors.deepOrange.accent4,
           success: colors.green.accent3
+        }
+      }
+    },
+    treeShake: {
+      loaderOptions: {
+        /**
+         * This function will be called for every tag used in each vue component
+         * It should return an array, the first element will be inserted into the
+         * components array, the second should be a corresponding import
+         *
+         * originalTag - the tag as it was originally used in the template
+         * kebabTag    - the tag normalised to kebab-case
+         * camelTag    - the tag normalised to PascalCase
+         * path        - a relative path to the current .vue file
+         * component   - a parsed representation of the current component
+         */
+        match (originalTag, { kebabTag, camelTag }) {
+          const parts = kebabTag.split('-')
+
+          const REQUIRED_MIN_FILENAME = 3
+
+          if (parts[0].length >= REQUIRED_MIN_FILENAME) {
+            for (let i = 0; i < parts.length; i++) {
+              const pathPart = parts.slice(0, i)
+              const filePart = parts.slice(i)
+
+              const relPath = path.join(COMPONENTS_DIR, ...pathPart, camelTag.substr(-filePart.join('').length))
+
+              const globResult = glob.sync(`${relPath}.{js,vue}`, {
+                cwd: __dirname
+              })
+
+              if (globResult.length > 0) {
+                return [
+                  camelTag,
+                  `import ${camelTag} from '~/${relPath}'`
+                ]
+              }
+            }
+          }
         }
       }
     }
