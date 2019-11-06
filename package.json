@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "Components auto-discovery using vuetify-loader",
   "author": "Kaz Namba &lt;kaz.namba@gmail.com&gt;",
+  "license": "MIT",
   "private": true,
   "scripts": {
     "dev": "nuxt",
